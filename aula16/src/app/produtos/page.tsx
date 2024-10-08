@@ -32,7 +32,7 @@ export default function Produtos() {
         <div>
             <h2>Produtos</h2>
             <div>
-                <table>
+                <table className="tabelaProd">
                     <thead>
                         <tr>
                             <th>ID</th>

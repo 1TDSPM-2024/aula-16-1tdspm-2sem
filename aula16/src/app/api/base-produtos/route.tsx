@@ -13,6 +13,8 @@ export async function GET() {
 
 export async function POST(request:Request) {
 
+
+    try{
     //Chamada para o arquivo base.json
     const file = await fs.readFile(process.cwd() + "/src/data/base.json" , "utf-8");
 
@@ -29,8 +31,8 @@ export async function POST(request:Request) {
         qtd: qtd
         };
 
-        //gerando um novo ID para o produto:
-        novoProduto.id = ( produtos[ produtos.length -1 ].id +1 )
+        //Gerando um novo ID para o produto:
+        novoProduto.id = ( produtos[ produtos.length - 1 ].id + 1 )
 
         //Agora vamos adicionar o novo produto na lista de produtos que recuperamos do arquivo:
         produtos.push(novoProduto);
@@ -41,5 +43,10 @@ export async function POST(request:Request) {
         //Agora devolvemos a lista de produtos no arquivo JSON sobrepondo os dados antigo pelos novos:
         await fs.writeFile(process.cwd() + "/src/data/base.json" , fileJson);
 
-        return NextResponse.json(novoProduto);
+        return NextResponse.json(novoProduto,{status:201});
+
+    }catch(error){
+        return NextResponse.json({error:"Falha na gravação."},{status:500});
+    }
+
 }

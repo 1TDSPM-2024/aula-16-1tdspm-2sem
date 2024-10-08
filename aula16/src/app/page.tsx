@@ -1,8 +1,10 @@
+import Image from "next/image"
+import imgBanner from "@/img/BlackFridayBanner.jpg"
 
 export default function Home() {
   return (
-    <div>
-      <h1 className="prose-base lg:prose-2xl">Página Principal</h1>
+    <div className="content-wrap">
+      <Image src={imgBanner} alt="Banner"/>
     </div>
   )
 }

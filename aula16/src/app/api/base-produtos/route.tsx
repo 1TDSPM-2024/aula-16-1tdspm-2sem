@@ -12,33 +12,37 @@ export async function GET() {
 }
 
 export async function POST(request:Request) {
-    //Chamada para o arquivo base.json
-    const file = await fs.readFile(process.cwd() + "/src/data/base.json" , "utf-8");
+    try{
+        //Chamada para o arquivo base.json
+        const file = await fs.readFile(process.cwd() + "/src/data/base.json" , "utf-8");
 
-    //PARSEAR O ARQUIVO QUE É A NOSSA LISTA DE PRODUTOS
-    const produtos:TipoProduto[] = JSON.parse(file);
+        //PARSEAR O ARQUIVO QUE É A NOSSA LISTA DE PRODUTOS
+        const produtos:TipoProduto[] = JSON.parse(file);
 
-    //Destructuring no request para obter os dados que foram enviados para gravação na lista
-    const {id, nome, qtd} = await request.json();
+        //Destructuring no request para obter os dados que foram enviados para gravação na lista
+        const {id, nome, qtd} = await request.json();
 
-    //Agora montamos um novo objeto com os dados desestruturados e tipamos
-    const novoProduto:TipoProduto = {
-        id: id,
-        nome: nome,
-        qtd: qtd
-    };
+        //Agora montamos um novo objeto com os dados desestruturados e tipamos
+        const novoProduto:TipoProduto = {
+            id: id,
+            nome: nome,
+            qtd: qtd
+        };
 
-    //Gerando um novo id para o produto
-    novoProduto.id = ( produtos[ produtos.length - 1 ].id + 1 )
+        //Gerando um novo id para o produto
+        novoProduto.id = ( produtos[ produtos.length - 1 ].id + 1 )
 
-    //Agora vamos adicionar o novo produto na lista de produtos
-    produtos.push(novoProduto);
+        //Agora vamos adicionar o novo produto na lista de produtos
+        produtos.push(novoProduto);
 
-    //Transfromando a lista em string
-    const fileJson = JSON.stringify(produtos)
+        //Transfromando a lista em string
+        const fileJson = JSON.stringify(produtos)
 
-    //Agora devolvemos a lista de produtos no arquivo JSON sobrepondo os dados antigos
-    await fs.writeFile(process.cwd() + "/src/data/base.json" , fileJson);
+        //Agora devolvemos a lista de produtos no arquivo JSON sobrepondo os dados antigos
+        await fs.writeFile(process.cwd() + "/src/data/base.json" , fileJson);
 
-    return NextResponse.json(novoProduto);
+        return NextResponse.json(novoProduto,{status:201});
+    }catch(error){
+        return NextResponse.json({error:"Falha na gravação."}, {status:500});
+    }
 }

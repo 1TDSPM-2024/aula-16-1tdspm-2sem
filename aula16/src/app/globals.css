@@ -7,4 +7,18 @@
     .cabecalho{
         @apply bg-slate-600;
     }
+
+    .tabelaProd{
+        @apply border-2 border-gray-700 m-auto w-10/12 bg-black shadow-lg shadow-gray-600 font-sans font-bold;
+
+        & th,td{
+            @apply text-center text-white border-2 border-white py-5;
+        }
+
+        & tbody tr{
+            @apply hover:bg-slate-500;
+        }
+
+    }
+
 }

@@ -13,6 +13,8 @@ export async function GET() {
 
 export async function POST(request:Request) {
 
+
+    try{
     //Chamada para o arquivo base.json
     const file = await fs.readFile(process.cwd() + "/src/data/base.json" , "utf-8");
 
@@ -41,5 +43,10 @@ export async function POST(request:Request) {
         //Agora devolvemos a lista de produtos no arquivo JSON sobrepondo os dados antigo pelos novos:
         await fs.writeFile(process.cwd() + "/src/data/base.json" , fileJson);
 
-        return NextResponse.json(novoProduto);
+        return NextResponse.json(novoProduto,{status:201});
+
+    }catch(error){
+        return NextResponse.json({error:"Falha na gravação."},{status:500});
+    }
+
 }

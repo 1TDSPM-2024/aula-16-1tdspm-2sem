@@ -15,6 +15,9 @@ export const viewport = {
 }
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
+
+  console.log("LAYOUT CARREGADO")
+
   return (
     <html lang="pt-br">
       <body>
